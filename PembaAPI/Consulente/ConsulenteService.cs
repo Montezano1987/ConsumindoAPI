@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 
 namespace PembaAPI.Consulente
 {
@@ -25,6 +26,18 @@ namespace PembaAPI.Consulente
             var consulente = JsonSerializer.Deserialize<ConsulenteDTO>(responseBody);
 
             return consulente;
+        }
+        public static async Task<ConsulenteDTO> CriarConsulente(ConsulenteDTO novoConsulente)
+        {
+            string url = "https://localhost:44325/api/Consulente";
+            var json = JsonSerializer.Serialize(novoConsulente);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync(url, content);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var consulenteCriado = JsonSerializer.Deserialize<ConsulenteDTO>(responseBody);
+
+            return consulenteCriado;
         }
 
     }

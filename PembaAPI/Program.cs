@@ -27,10 +27,10 @@ namespace PembaAPI
                 {
                     await BuscarPorIdConsulente();
                 }
-                //else if (opcao == "3")
-                //{
-                //    await CriarConsulente();
-                //}
+                else if (opcao == "3")
+                {
+                    await CriarConsulente();
+                }
                 //else if (opcao == "4")
                 //{
                 //    await AtualizarConsulente();
@@ -65,6 +65,30 @@ namespace PembaAPI
             var id = int.Parse(Console.ReadLine());
             var consulente = await ConsulenteService.BuscarPorIdConsulente(id);
             Console.WriteLine($"ID: {consulente.Id}, Nome: {consulente.Nome}");
+        }
+
+        public static async Task CriarConsulente()
+        {
+            Console.Write("Digite o nome do consulente: ");
+            var nome = Console.ReadLine();
+            Console.Write("Digite a data de nascimento (yyyy-MM-dd): ");
+            var dataNascimento = DateTime.Parse(Console.ReadLine());
+            Console.Write("O consulente é prioritário? (true/false): ");
+            var ehPrioritario = bool.Parse(Console.ReadLine());
+            Console.Write("O consulente é médium? (true/false): ");
+            var ehMedium = bool.Parse(Console.ReadLine());
+
+            var novoConsulente = new ConsulenteDTO
+            {
+                Nome = nome,
+                DataCadastro = DateTime.Now,
+                DataNascimento = dataNascimento,
+                EhPrioritario = ehPrioritario,
+                EhMedium = ehMedium
+            };
+
+            var consulenteCriado = await ConsulenteService.CriarConsulente(novoConsulente);
+            Console.WriteLine($"Consulente criado com sucesso: ID: {consulenteCriado.Id}, Nome: {consulenteCriado.Nome}");
         }
 
     }
