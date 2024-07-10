@@ -31,14 +31,14 @@ namespace PembaAPI
                 {
                     await CriarConsulente();
                 }
-                //else if (opcao == "4")
-                //{
-                //    await AtualizarConsulente();
-                //}
-                //else if (opcao == "5")
-                //{
-                //    await DeletarConsulente();
-                //}
+                else if (opcao == "4")
+                {
+                    await AtualizarConsulente();
+                }
+                else if (opcao == "5")
+                {
+                    await DeletarConsulente();
+                }
                 else if (opcao == "0")
                 {
                     Environment.Exit(0);
@@ -91,5 +91,44 @@ namespace PembaAPI
             Console.WriteLine($"Consulente criado com sucesso: ID: {consulenteCriado.Id}, Nome: {consulenteCriado.Nome}");
         }
 
+        public static async Task AtualizarConsulente()
+        {
+            Console.Write("Digite o ID do consulente que deseja atualizar: ");
+            var id = int.Parse(Console.ReadLine());
+            var consulente = await ConsulenteService.BuscarPorIdConsulente(id);
+
+            if (consulente == null)
+            {
+                Console.WriteLine("Consulente não encontrado.");
+                return;
+            }
+
+            Console.Write("Digite o novo nome do consulente: ");
+            consulente.Nome = Console.ReadLine();
+            Console.Write("Digite a nova data de nascimento (yyyy-MM-dd): ");
+            consulente.DataNascimento = DateTime.Parse(Console.ReadLine());
+            Console.Write("O consulente é prioritário? (true/false): ");
+            consulente.EhPrioritario = bool.Parse(Console.ReadLine());
+            Console.Write("O consulente é médium? (true/false): ");
+            consulente.EhMedium = bool.Parse(Console.ReadLine());
+
+            var consulenteAtualizado = await ConsulenteService.AtualizarConsulente(consulente);
+            Console.WriteLine($"Consulente atualizado com sucesso: ID: {consulenteAtualizado.Id}, Nome: {consulenteAtualizado.Nome}");
+        }
+
+        public static async Task DeletarConsulente()
+        {
+            Console.Write("Digite o ID do consulente que deseja deletar: ");
+            var id = int.Parse(Console.ReadLine());
+            var sucesso = await ConsulenteService.DeletarConsulente(id);
+            if (sucesso)
+            {
+                Console.WriteLine("Consulente deletado com sucesso.");
+            }
+            else
+            {
+                Console.WriteLine("Erro ao deletar consulente.");
+            }
+        }
     }
 }

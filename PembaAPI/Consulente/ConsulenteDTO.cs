@@ -23,5 +23,8 @@ namespace PembaAPI.Consulente
 
         [JsonPropertyName("ehMedium")]
         public bool EhMedium { get; set; }
+
+        [JsonPropertyName("consulente")]
+        public string Consulente { get; set; }
     }
 }

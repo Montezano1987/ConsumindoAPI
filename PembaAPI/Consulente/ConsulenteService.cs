@@ -40,5 +40,25 @@ namespace PembaAPI.Consulente
             return consulenteCriado;
         }
 
+        public static async Task<ConsulenteDTO> AtualizarConsulente(ConsulenteDTO consulenteAtualizado)
+        {
+            string url = $"https://localhost:44325/api/Consulente/{consulenteAtualizado.Id}";
+            var json = JsonSerializer.Serialize(consulenteAtualizado);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _httpClient.PutAsync(url, content);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var consulente = JsonSerializer.Deserialize<ConsulenteDTO>(responseBody);
+
+            return consulente;
+        }
+        public static async Task<bool> DeletarConsulente(int id)
+        {
+            string url = $"https://localhost:44325/api/Consulente/{id}";
+            HttpResponseMessage response = await _httpClient.DeleteAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            return response.IsSuccessStatusCode;
+        }
     }
 }
