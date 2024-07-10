@@ -36,7 +36,7 @@ namespace PembaAPI.Consulente
             response.EnsureSuccessStatusCode();
             string responseBody = await response.Content.ReadAsStringAsync();
             var consulenteCriado = JsonSerializer.Deserialize<ConsulenteDTO>(responseBody);
-
+            
             return consulenteCriado;
         }
 
@@ -45,13 +45,25 @@ namespace PembaAPI.Consulente
             string url = $"https://localhost:44325/api/Consulente/{consulenteAtualizado.Id}";
             var json = JsonSerializer.Serialize(consulenteAtualizado);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
+
             HttpResponseMessage response = await _httpClient.PutAsync(url, content);
             response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync();
-            var consulente = JsonSerializer.Deserialize<ConsulenteDTO>(responseBody);
 
-            return consulente;
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            if (string.IsNullOrWhiteSpace(responseBody))
+            {
+                return consulenteAtualizado;
+            }
+
+            else
+            {
+                var consulente = JsonSerializer.Deserialize<ConsulenteDTO>(responseBody);
+                return consulente;
+            }
+            
         }
+
         public static async Task<bool> DeletarConsulente(int id)
         {
             string url = $"https://localhost:44325/api/Consulente/{id}";
