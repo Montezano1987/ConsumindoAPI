@@ -57,14 +57,14 @@ namespace PembaAPI
                 {
                     await CriarMedium();
                 }
-                //else if (opcao == "9")
-                //{
-                //    await AtualizarMedium();
-                //}
-                //else if (opcao == "10")
-                //{
-                //    await DeletarMedium();
-                //}
+                else if (opcao == "9")
+                {
+                    await AtualizarMedium();
+                }
+                else if (opcao == "10")
+                {
+                    await DeletarMedium();
+                }
                 else if (opcao == "0")
                 {
                     Environment.Exit(0);
@@ -87,7 +87,7 @@ namespace PembaAPI
 
         public static async Task BuscarPorIdConsulente()
         {
-            Console.Write("Digite o ID do consulente: ");
+            Console.Write("Digite o ID do medium: ");
             var id = int.Parse(Console.ReadLine());
             var consulente = await ConsulenteService.BuscarPorIdConsulente(id);
             Console.WriteLine($"ID: {consulente.Id}, Nome: {consulente.Nome}");
@@ -95,13 +95,13 @@ namespace PembaAPI
 
         public static async Task CriarConsulente()
         {
-            Console.Write("Digite o nome do consulente: ");
+            Console.Write("Digite o nome do medium: ");
             var nome = Console.ReadLine();
             Console.Write("Digite a data de nascimento (yyyy-MM-dd): ");
             var dataNascimento = DateTime.Parse(Console.ReadLine());
-            Console.Write("O consulente é prioritário? (true/false): ");
+            Console.Write("O medium é prioritário? (true/false): ");
             var ehPrioritario = bool.Parse(Console.ReadLine());
-            Console.Write("O consulente é médium? (true/false): ");
+            Console.Write("O medium é médium? (true/false): ");
             var ehMedium = bool.Parse(Console.ReadLine());
 
             var novoConsulente = new ConsulenteDTO
@@ -119,7 +119,7 @@ namespace PembaAPI
 
         public static async Task AtualizarConsulente()
         {
-            Console.Write("Digite o ID do consulente que deseja atualizar: ");
+            Console.Write("Digite o ID do medium que deseja atualizar: ");
             var id = int.Parse(Console.ReadLine());
             var consulente = await ConsulenteService.BuscarPorIdConsulente(id);
 
@@ -129,13 +129,13 @@ namespace PembaAPI
                 return;
             }
 
-            Console.Write("Digite o novo nome do consulente: ");
+            Console.Write("Digite o novo nome do medium: ");
             consulente.Nome = Console.ReadLine();
             Console.Write("Digite a nova data de nascimento (yyyy-MM-dd): ");
             consulente.DataNascimento = DateTime.Parse(Console.ReadLine());
-            Console.Write("O consulente é prioritário? (true/false): ");
+            Console.Write("O medium é prioritário? (true/false): ");
             consulente.EhPrioritario = bool.Parse(Console.ReadLine());
-            Console.Write("O consulente é médium? (true/false): ");
+            Console.Write("O medium é médium? (true/false): ");
             consulente.EhMedium = bool.Parse(Console.ReadLine());
 
             var consulenteAtualizado = await ConsulenteService.AtualizarConsulente(consulente);
@@ -144,7 +144,7 @@ namespace PembaAPI
 
         public static async Task DeletarConsulente()
         {
-            Console.Write("Digite o ID do consulente que deseja deletar: ");
+            Console.Write("Digite o ID do medium que deseja deletar: ");
             var id = int.Parse(Console.ReadLine());
             var sucesso = await ConsulenteService.DeletarConsulente(id);
             if (sucesso)
@@ -153,7 +153,7 @@ namespace PembaAPI
             }
             else
             {
-                Console.WriteLine("Erro ao deletar consulente.");
+                Console.WriteLine("Erro ao deletar medium.");
             }
         }
 
@@ -180,6 +180,8 @@ namespace PembaAPI
             var nome = Console.ReadLine();
             Console.Write("Digite a data de nascimento (yyyy-MM-dd): ");
             var dataNascimento = DateTime.Parse(Console.ReadLine());
+            Console.WriteLine("Quantidade de consultas maximas por dia?");
+            var qtdConsultasMaxDiarias = int.Parse(Console.ReadLine());
             Console.Write("Qual o lado do medium?:");
             string lado = (Console.ReadLine());
             Console.Write("Qual a ordem do medium?:");
@@ -190,6 +192,7 @@ namespace PembaAPI
                 NomeMedium = nome,
                 DataCadastro = DateTime.Now,
                 DataNascimento = dataNascimento,
+                QtdConsultasMaxDiarias = qtdConsultasMaxDiarias,
                 Lado = lado,
                 Ordem = ordem
             };
@@ -198,44 +201,44 @@ namespace PembaAPI
             Console.WriteLine($"Medium criado com sucesso: ID: {mediumCriado.Id}, Nome: {mediumCriado.NomeMedium}");
         }
 
-        //public static async Task AtualizarConsulente()
-        //{
-        //    Console.Write("Digite o ID do consulente que deseja atualizar: ");
-        //    var id = int.Parse(Console.ReadLine());
-        //    var consulente = await ConsulenteService.BuscarPorIdConsulente(id);
+        public static async Task AtualizarMedium()
+        {
+            Console.Write("Digite o ID do medium que deseja atualizar: ");
+            var id = int.Parse(Console.ReadLine());
+            var medium = await MediumService.BuscarPorIdMedium(id);
 
-        //    if (consulente == null)
-        //    {
-        //        Console.WriteLine("Consulente não encontrado.");
-        //        return;
-        //    }
+            if (medium == null)
+            {
+                Console.WriteLine("Medium não encontrado.");
+                return;
+            }
 
-        //    Console.Write("Digite o novo nome do consulente: ");
-        //    consulente.Nome = Console.ReadLine();
-        //    Console.Write("Digite a nova data de nascimento (yyyy-MM-dd): ");
-        //    consulente.DataNascimento = DateTime.Parse(Console.ReadLine());
-        //    Console.Write("O consulente é prioritário? (true/false): ");
-        //    consulente.EhPrioritario = bool.Parse(Console.ReadLine());
-        //    Console.Write("O consulente é médium? (true/false): ");
-        //    consulente.EhMedium = bool.Parse(Console.ReadLine());
+            Console.Write("Digite o novo nome do medium: ");
+            medium.NomeMedium = Console.ReadLine();
+            Console.Write("Digite a nova data de nascimento (yyyy-MM-dd): ");
+            medium.DataNascimento = DateTime.Parse(Console.ReadLine());
+            Console.Write("Qual o lado do medium?:");
+            medium.Lado = (Console.ReadLine());
+            Console.Write("Qual a ordem do medium?:");
+            medium.Ordem = int.Parse(Console.ReadLine());
 
-        //    var consulenteAtualizado = await ConsulenteService.AtualizarConsulente(consulente);
-        //    Console.WriteLine($"Consulente atualizado com sucesso: ID: {consulenteAtualizado.Id}, Nome: {consulenteAtualizado.Nome}");
-        //}
+            var mediumAtualizado = await MediumService.AtualizarMedium(medium);
+            Console.WriteLine($"Consulente atualizado com sucesso: ID: {mediumAtualizado.Id}, Nome: {mediumAtualizado.NomeMedium}");
+        }
 
-        //public static async Task DeletarConsulente()
-        //{
-        //    Console.Write("Digite o ID do consulente que deseja deletar: ");
-        //    var id = int.Parse(Console.ReadLine());
-        //    var sucesso = await ConsulenteService.DeletarConsulente(id);
-        //    if (sucesso)
-        //    {
-        //        Console.WriteLine("Consulente deletado com sucesso.");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Erro ao deletar consulente.");
-        //    }
-        //}
+        public static async Task DeletarMedium()
+        {
+            Console.Write("Digite o ID do medium que deseja deletar: ");
+            var id = int.Parse(Console.ReadLine());
+            var sucesso = await MediumService.DeletarMedium(id);
+            if (sucesso)
+            {
+                Console.WriteLine("Medium deletado com sucesso.");
+            }
+            else
+            {
+                Console.WriteLine("Erro ao deletar medium.");
+            }
+        }
     }
 }

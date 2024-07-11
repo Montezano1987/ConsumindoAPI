@@ -19,13 +19,13 @@ namespace PembaAPI.Medium
         }
         public static async Task<MediumDTO> BuscarPorIdMedium(int id)
         {
-            string url = "https://localhost:44325/api/Medium/{id}";
+            string url = $"https://localhost:44325/api/Medium/{id}";
             HttpResponseMessage response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
             string responseBody = await response.Content.ReadAsStringAsync();
-            var consulente = JsonSerializer.Deserialize<MediumDTO>(responseBody);
+            var medium = JsonSerializer.Deserialize<MediumDTO>(responseBody);
 
-            return consulente;
+            return medium;
         }
         public static async Task<MediumDTO> CriarMedium(MediumDTO novoMedium)
         {
@@ -40,9 +40,9 @@ namespace PembaAPI.Medium
             return mediumCriado;
         }
 
-        public static async Task<MediumDTO> AtualizarConsulente(MediumDTO mediumAtualizado)
+        public static async Task<MediumDTO> AtualizarMedium(MediumDTO mediumAtualizado)
         {
-            string url = "https://localhost:44325/api/Medium/{mediumAtualizado.Id}";
+            string url = $"https://localhost:44325/api/Medium/{mediumAtualizado.Id}";
             var json = JsonSerializer.Serialize(mediumAtualizado);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -66,7 +66,7 @@ namespace PembaAPI.Medium
 
         public static async Task<bool> DeletarMedium(int id)
         {
-            string url = "https://localhost:44325/api/Medium/{id}";
+            string url = $"https://localhost:44325/api/Medium/{id}";
             HttpResponseMessage response = await _httpClient.DeleteAsync(url);
             response.EnsureSuccessStatusCode();
 

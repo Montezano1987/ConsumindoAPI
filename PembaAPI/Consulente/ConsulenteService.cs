@@ -72,5 +72,10 @@ namespace PembaAPI.Consulente
 
             return response.IsSuccessStatusCode;
         }
+
+        internal static async Task AtualizarConsulente(MediumDTO medium)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

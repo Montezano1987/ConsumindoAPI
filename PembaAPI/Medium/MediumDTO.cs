@@ -19,9 +19,9 @@ public class MediumDTO
     public int QtdConsultasMaxDiarias { get; set; }
 
     [JsonPropertyName("lado")]
-    public string Lado { get; set; }
+    public string? Lado { get; set; }
 
     [JsonPropertyName("ordem")]
-    public int Ordem { get; set; }
+    public int? Ordem { get; set; }
 }
 
