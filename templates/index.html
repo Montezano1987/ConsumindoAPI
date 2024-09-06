@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados do Dota 2</title>
+</head>
+<body>
+    <h1>Heróis</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nome Localizado</th>
+            <th>Atributo Primário</th>
+        </tr>
+        {% for hero in heroes %}
+        <tr>
+            <td>{{ hero['id'] }}</td>
+            <td>{{ hero['localized_name'] }}</td>
+            <td>{{ hero['primary_attr'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h1>Partidas Profissionais</h1>
+    <table border="1">
+        <tr>
+            <th>ID da Partida</th>
+            <th>Duração</th>
+            <th>Time Radiant</th>
+            <th>Time Dire</th>
+        </tr>
+        {% for match in matches %}
+        <tr>
+            <td>{{ match['match_id'] }}</td>
+            <td>{{ match['duration'] }}</td>
+            <td>{{ match['radiant_name'] }}</td>
+            <td>{{ match['dire_name'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
